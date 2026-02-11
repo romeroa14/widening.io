@@ -1,0 +1,409 @@
+{
+    "info": {
+        "name": "Flowbot Odontológico - API v1",
+        "description": "API completa para el chatbot de WhatsApp de centros odontológicos en República Dominicana.\n\n**Funcionalidades:**\n- Lookup de pacientes por teléfono (identificación WhatsApp)\n- Gestión de citas\n- Servicios dentales\n- Pagos con pasarela simulada\n- Planes de pago recurrentes (ortodoncia)\n\n**Base URL:** `http://localhost:8001/api/v1/odt`",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "Clientes",
+            "item": [
+                {
+                    "name": "Lookup por teléfono (Webhook Bot)",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"telefono\": \"+18099876543\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/clientes/lookup",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "clientes",
+                                "lookup"
+                            ]
+                        },
+                        "description": "**Endpoint clave del flowbot**\n\nBusca un paciente por número de WhatsApp.\n\n**Respuesta:**\n- `existe: true` → Cliente registrado (flujo existente)\n- `existe: false` → Cliente nuevo (flujo nuevo)"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Crear cliente nuevo",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"nombre\": \"Pedro Martínez\",\n  \"telefono\": \"+18091112222\",\n  \"email\": \"pedro@example.com\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/clientes",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "clientes"
+                            ]
+                        },
+                        "description": "Crea un paciente nuevo después de confirmar pago de consulta inicial."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Ver cliente por ID",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/clientes/2",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "clientes",
+                                "2"
+                            ]
+                        },
+                        "description": "Obtiene información completa del cliente incluyendo citas y planes de pago."
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Servicios",
+            "item": [
+                {
+                    "name": "Listar todos los servicios",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/servicios",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "servicios"
+                            ]
+                        },
+                        "description": "Lista todos los servicios dentales disponibles con precios en RD$."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Ver servicio específico",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/servicios/1",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "servicios",
+                                "1"
+                            ]
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Citas",
+            "item": [
+                {
+                    "name": "Próxima cita del cliente (Webhook Bot)",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/citas/proxima/2",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "citas",
+                                "proxima",
+                                "2"
+                            ]
+                        },
+                        "description": "**Endpoint clave para flujo de cliente existente**\n\nObtiene la próxima cita del paciente para mostrarla en WhatsApp."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Agendar cita",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"cliente_id\": 1,\n  \"servicio_id\": 1,\n  \"fecha\": \"2026-03-25\",\n  \"hora\": \"14:00\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/citas",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "citas"
+                            ]
+                        },
+                        "description": "Agenda una nueva cita. Estado inicial: `pendiente`."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Confirmar cita",
+                    "request": {
+                        "method": "PATCH",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/citas/2/confirmar",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "citas",
+                                "2",
+                                "confirmar"
+                            ]
+                        },
+                        "description": "Cambia el estado de la cita a `confirmada`."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Cancelar cita",
+                    "request": {
+                        "method": "PATCH",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/citas/2/cancelar",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "citas",
+                                "2",
+                                "cancelar"
+                            ]
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Pagos",
+            "item": [
+                {
+                    "name": "Crear pago",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"cliente_id\": 1,\n  \"cita_id\": 1,\n  \"monto\": 1000,\n  \"metodo_pago\": \"tarjeta\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/pagos",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "pagos"
+                            ]
+                        },
+                        "description": "Crea un pago con token simulado. Estado inicial: `pendiente`."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Confirmar pago (Webhook Pasarela)",
+                    "request": {
+                        "method": "PATCH",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/pagos/1/confirmar",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "pagos",
+                                "1",
+                                "confirmar"
+                            ]
+                        },
+                        "description": "**Regla de negocio importante:**\nAl confirmar el pago, si tiene `cita_id`, la cita se confirma automáticamente."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Historial de pagos del cliente",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/pagos/cliente/2",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "pagos",
+                                "cliente",
+                                "2"
+                            ]
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Planes de Pago (Ortodoncia)",
+            "item": [
+                {
+                    "name": "Plan activo del cliente",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/planes-pago/cliente/2",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "planes-pago",
+                                "cliente",
+                                "2"
+                            ]
+                        },
+                        "description": "**Endpoint para flujo de ortodoncia**\n\nObtiene el plan de pago recurrente activo del paciente (ej: 18 meses de ortodoncia)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Pagar cuota mensual",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/planes-pago/1/pagar",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "planes-pago",
+                                "1",
+                                "pagar"
+                            ]
+                        },
+                        "description": "Incrementa `mes_actual` del plan. Si completa todos los meses, desactiva el plan automáticamente."
+                    },
+                    "response": []
+                }
+            ]
+        }
+    ],
+    "variable": [
+        {
+            "key": "base_url",
+            "value": "http://localhost:8005/api/v1/odt",
+            "type": "string"
+        }
+    ]
+}
