@@ -20,7 +20,6 @@ class OdtCita extends Model
         'fecha',
         'hora',
         'estado',
-        'notas',
     ];
 
     protected function casts(): array

@@ -15,7 +15,6 @@ return new class extends Migration
             $table->date('fecha');
             $table->time('hora');
             $table->enum('estado', ['pendiente', 'confirmada', 'cancelada', 'completada'])->default('pendiente');
-            $table->text('notas')->nullable();
             $table->timestamps();
 
             $table->foreign('cliente_id')->references('id')->on('odt_clientes')->cascadeOnDelete();

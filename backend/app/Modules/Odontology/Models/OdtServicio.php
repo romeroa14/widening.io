@@ -15,10 +15,8 @@ class OdtServicio extends Model
 
     protected $fillable = [
         'nombre',
-        'descripcion',
         'precio',
         'tipo',
-        'activo',
     ];
 
     protected function casts(): array
@@ -26,7 +24,6 @@ class OdtServicio extends Model
         return [
             'precio' => 'decimal:2',
             'tipo' => TipoServicio::class,
-            'activo' => 'boolean',
         ];
     }
 
@@ -43,11 +40,6 @@ class OdtServicio extends Model
     }
 
     // ─── Scopes ───────────────────────────────────────────
-
-    public function scopeActivos($query)
-    {
-        return $query->where('activo', true);
-    }
 
     public function scopePorTipo($query, TipoServicio $tipo)
     {

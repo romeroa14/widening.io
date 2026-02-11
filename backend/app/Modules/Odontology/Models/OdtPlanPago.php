@@ -5,7 +5,6 @@ namespace App\Modules\Odontology\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class OdtPlanPago extends Model
 {
@@ -42,10 +41,7 @@ class OdtPlanPago extends Model
         return $this->belongsTo(OdtServicio::class, 'servicio_id');
     }
 
-    public function pagos(): HasMany
-    {
-        return $this->hasMany(OdtPago::class, 'plan_pago_id');
-    }
+
 
     // ─── Scopes ───────────────────────────────────────────
 
